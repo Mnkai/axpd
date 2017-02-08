@@ -8,13 +8,17 @@ checkbit(){
 rmmod -f battery
 modprobe i2c-dev 
 modprobe test_power
-for i in 4 12
+
+i=2
+while [ "$i" -lt 13 ]
 do
-	if find /sys | grep axp288_charger | grep -q i2c-$i/
+	if find /sys/devices/platform | grep -q 80860F41:04/i2c-$i/ 
 	then
 		export ADDR=$i
 	fi
+	i=`expr $i + 1 `
 done
+
 while true
 do
 	rmmod battery 2>/dev/null
